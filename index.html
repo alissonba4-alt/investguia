@@ -1,12 +1,545 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-    <p>Current Date and Time (UTC): 2026-03-12 22:32:06</p>
-</body>
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia de Investimentos - Carteira de Ações</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'forest': '#1a3a2f',
+            'forest-light': '#2d5a4a',
+            'sage': '#4a7c6f',
+            'mint': '#e8f0ed',
+            'cream': '#fafbfa',
+            'charcoal': '#2d3436',
+            'slate': '#636e72'
+          },
+          fontFamily: {
+            'display': ['Playfair Display', 'serif'],
+            'body': ['DM Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    .smooth-scroll {
+      scroll-behavior: smooth;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    .chart-segment {
+      transition: all 0.3s ease;
+    }
+    .chart-segment:hover {
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body bg-cream text-charcoal">
+  <div id="app-wrapper" class="w-full h-full overflow-auto"><!-- Navigation -->
+   <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-mint">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-2">
+      <svg class="w-8 h-8 text-forest" viewbox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" fill="currentColor" opacity="0.4" /> <rect x="13" y="12" width="6" height="16" rx="1" fill="currentColor" opacity="0.6" /> <rect x="22" y="6" width="6" height="22" rx="1" fill="currentColor" />
+      </svg><span class="font-display font-semibold text-forest text-lg">InvestGuia</span>
+     </div><a href="#cta-final" class="hidden sm:inline-flex items-center gap-2 bg-forest text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-forest-light transition-colors"> Acessar Guia 
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg></a>
+    </div>
+   </nav><!-- Hero Section -->
+   <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-mint via-cream to-cream"></div>
+    <div class="absolute top-20 right-0 w-96 h-96 bg-sage/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-80 h-80 bg-forest/5 rounded-full blur-3xl"></div>
+    <div class="relative max-w-6xl mx-auto">
+     <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="animate-fade-in-up">
+       <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm mb-6"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> <span class="text-sm text-slate font-medium">Guia completo disponível</span>
+       </div>
+       <h1 id="hero-title" class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-forest leading-tight mb-6">Monte uma Carteira de Investimentos Inteligente e Receba Dividendos Consistentes</h1>
+       <p id="hero-subtitle" class="text-lg md:text-xl text-slate leading-relaxed mb-8 max-w-xl">Um guia prático que mostra como dividir sua carteira, escolher as melhores ações de cada setor e analisar empresas antes de investir.</p>
+       <div class="flex flex-col sm:flex-row gap-4"><a href="#cta-final" id="cta-button" class="inline-flex items-center justify-center gap-3 bg-forest text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-forest-light transition-all hover:shadow-lg hover:shadow-forest/25 group"> Quero acessar o guia 
+         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+         </svg></a> <a href="#sobre" class="inline-flex items-center justify-center gap-2 text-forest px-6 py-4 font-medium hover:text-forest-light transition-colors"> Saiba mais 
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+         </svg></a>
+       </div>
+      </div>
+      <div class="relative animate-fade-in-up delay-200 hidden lg:block">
+       <div class="animate-float">
+        <div class="bg-white rounded-3xl shadow-2xl shadow-forest/10 p-8">
+         <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-mint rounded-2xl flex items-center justify-center">
+           <svg class="w-6 h-6 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+           </svg>
+          </div>
+          <div>
+           <p class="font-semibold text-charcoal">Sua Carteira</p>
+           <p class="text-sm text-slate">Diversificada e equilibrada</p>
+          </div>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 bg-mint/50 rounded-xl">
+           <div class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-forest rounded-full"></div><span class="text-sm font-medium">Bancos</span>
+           </div><span class="text-sm font-semibold text-forest">25%</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-mint/50 rounded-xl">
+           <div class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-sage rounded-full"></div><span class="text-sm font-medium">Energia</span>
+           </div><span class="text-sm font-semibold text-forest">20%</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-mint/50 rounded-xl">
+           <div class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-forest-light rounded-full"></div><span class="text-sm font-medium">FIIs</span>
+           </div><span class="text-sm font-semibold text-forest">20%</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-mint/50 rounded-xl">
+           <div class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-emerald-400 rounded-full"></div><span class="text-sm font-medium">Outros</span>
+           </div><span class="text-sm font-semibold text-forest">35%</span>
+          </div>
+         </div>
+         <div class="mt-6 pt-6 border-t border-mint">
+          <div class="flex items-center justify-between"><span class="text-sm text-slate">Dividendos estimados/mês</span> <span class="text-lg font-bold text-forest">+ R$ 850</span>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Sobre o Material -->
+   <section id="sobre" class="py-20 px-6 bg-white">
+    <div class="max-w-4xl mx-auto text-center"><span class="inline-block text-sage font-semibold text-sm tracking-wider uppercase mb-4">Sobre o Material</span>
+     <h2 class="font-display text-3xl md:text-4xl font-bold text-forest mb-8">Um guia pensado para quem quer investir com segurança</h2>
+     <p id="about-text" class="text-lg text-slate leading-relaxed max-w-3xl mx-auto">Este PDF foi criado para investidores que querem montar uma carteira sólida e equilibrada. Você vai aprender como dividir seus investimentos entre diferentes setores da economia e selecionar ações com potencial de geração de renda através de dividendos.</p>
+     <div class="flex flex-wrap justify-center gap-6 mt-12">
+      <div class="flex items-center gap-3 bg-mint px-6 py-3 rounded-full">
+       <svg class="w-5 h-5 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+       </svg><span class="font-medium text-forest">PDF completo</span>
+      </div>
+      <div class="flex items-center gap-3 bg-mint px-6 py-3 rounded-full">
+       <svg class="w-5 h-5 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+       </svg><span class="font-medium text-forest">Acesso imediato</span>
+      </div>
+      <div class="flex items-center gap-3 bg-mint px-6 py-3 rounded-full">
+       <svg class="w-5 h-5 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+       </svg><span class="font-medium text-forest">Conteúdo verificado</span>
+      </div>
+     </div>
+    </div>
+   </section><!-- O que você vai aprender -->
+   <section class="py-20 px-6 bg-cream">
+    <div class="max-w-6xl mx-auto">
+     <div class="text-center mb-16"><span class="inline-block text-sage font-semibold text-sm tracking-wider uppercase mb-4">Conteúdo</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-forest">O que você vai aprender</h2>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-forest/5 transition-all duration-300">
+       <div class="w-14 h-14 bg-mint rounded-2xl flex items-center justify-center mb-6 group-hover:bg-forest group-hover:text-white transition-colors">
+        <svg class="w-7 h-7 text-forest group-hover:text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+        </svg>
+       </div>
+       <h3 class="font-display text-xl font-semibold text-forest mb-3">Divisão Estratégica</h3>
+       <p class="text-slate leading-relaxed">Como dividir sua carteira de investimentos de forma estratégica entre diferentes ativos.</p>
+      </div>
+      <div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-forest/5 transition-all duration-300">
+       <div class="w-14 h-14 bg-mint rounded-2xl flex items-center justify-center mb-6 group-hover:bg-forest group-hover:text-white transition-colors">
+        <svg class="w-7 h-7 text-forest group-hover:text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+       </div>
+       <h3 class="font-display text-xl font-semibold text-forest mb-3">Melhores Setores</h3>
+       <p class="text-slate leading-relaxed">Quais são algumas das melhores ações em diferentes setores da economia brasileira.</p>
+      </div>
+      <div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-forest/5 transition-all duration-300">
+       <div class="w-14 h-14 bg-mint rounded-2xl flex items-center justify-center mb-6 group-hover:bg-forest group-hover:text-white transition-colors">
+        <svg class="w-7 h-7 text-forest group-hover:text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+        </svg>
+       </div>
+       <h3 class="font-display text-xl font-semibold text-forest mb-3">Carteira Equilibrada</h3>
+       <p class="text-slate leading-relaxed">Como montar uma carteira equilibrada focada em renda passiva e crescimento patrimonial.</p>
+      </div>
+      <div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-forest/5 transition-all duration-300">
+       <div class="w-14 h-14 bg-mint rounded-2xl flex items-center justify-center mb-6 group-hover:bg-forest group-hover:text-white transition-colors">
+        <svg class="w-7 h-7 text-forest group-hover:text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+       </div>
+       <h3 class="font-display text-xl font-semibold text-forest mb-3">Redução de Riscos</h3>
+       <p class="text-slate leading-relaxed">Estratégias comprovadas para reduzir riscos e proteger seu patrimônio no longo prazo.</p>
+      </div>
+      <div class="group bg-gradient-to-br from-forest to-forest-light p-8 rounded-2xl shadow-lg md:col-span-2 lg:col-span-2">
+       <div class="flex items-start gap-4">
+        <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center flex-shrink-0">
+         <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+         </svg>
+        </div>
+        <div><span class="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">BÔNUS EXCLUSIVO</span>
+         <h3 class="font-display text-2xl font-semibold text-white mb-3">Guia de Análise de Ações</h3>
+         <p class="text-white/80 leading-relaxed">Um guia simples e prático de como analisar uma ação antes de investir. Aprenda a ler os principais indicadores e tomar decisões mais informadas.</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Gráfico de Carteira -->
+   <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+     <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div><span class="inline-block text-sage font-semibold text-sm tracking-wider uppercase mb-4">Exemplo Visual</span>
+       <h2 class="font-display text-3xl md:text-4xl font-bold text-forest mb-6">Diversificação inteligente para dividendos consistentes</h2>
+       <p class="text-lg text-slate leading-relaxed mb-8">Uma carteira bem diversificada é essencial para reduzir riscos e aumentar a estabilidade dos seus dividendos. Veja um exemplo de como distribuir seus investimentos.</p>
+       <div class="space-y-4">
+        <div class="flex items-center gap-4 p-4 bg-mint/50 rounded-xl chart-segment cursor-pointer">
+         <div class="w-4 h-4 bg-forest rounded-full flex-shrink-0"></div>
+         <div class="flex-1">
+          <div class="flex justify-between items-center"><span class="font-semibold text-charcoal">Bancos</span> <span class="font-bold text-forest">20%</span>
+          </div>
+          <div class="w-full bg-mint rounded-full h-2 mt-2">
+           <div class="bg-forest h-2 rounded-full" style="width: 20%"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex items-center gap-4 p-4 bg-mint/50 rounded-xl chart-segment cursor-pointer">
+         <div class="w-4 h-4 bg-sage rounded-full flex-shrink-0"></div>
+         <div class="flex-1">
+          <div class="flex justify-between items-center"><span class="font-semibold text-charcoal">Energia</span> <span class="font-bold text-forest">18%</span>
+          </div>
+          <div class="w-full bg-mint rounded-full h-2 mt-2">
+           <div class="bg-sage h-2 rounded-full" style="width: 18%"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex items-center gap-4 p-4 bg-mint/50 rounded-xl chart-segment cursor-pointer">
+         <div class="w-4 h-4 bg-forest-light rounded-full flex-shrink-0"></div>
+         <div class="flex-1">
+          <div class="flex justify-between items-center"><span class="font-semibold text-charcoal">Saneamento</span> <span class="font-bold text-forest">15%</span>
+          </div>
+          <div class="w-full bg-mint rounded-full h-2 mt-2">
+           <div class="bg-forest-light h-2 rounded-full" style="width: 15%"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex items-center gap-4 p-4 bg-mint/50 rounded-xl chart-segment cursor-pointer">
+         <div class="w-4 h-4 bg-emerald-500 rounded-full flex-shrink-0"></div>
+         <div class="flex-1">
+          <div class="flex justify-between items-center"><span class="font-semibold text-charcoal">Fundos Imobiliários</span> <span class="font-bold text-forest">20%</span>
+          </div>
+          <div class="w-full bg-mint rounded-full h-2 mt-2">
+           <div class="bg-emerald-500 h-2 rounded-full" style="width: 20%"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex items-center gap-4 p-4 bg-mint/50 rounded-xl chart-segment cursor-pointer">
+         <div class="w-4 h-4 bg-teal-500 rounded-full flex-shrink-0"></div>
+         <div class="flex-1">
+          <div class="flex justify-between items-center"><span class="font-semibold text-charcoal">Commodities</span> <span class="font-bold text-forest">12%</span>
+          </div>
+          <div class="w-full bg-mint rounded-full h-2 mt-2">
+           <div class="bg-teal-500 h-2 rounded-full" style="width: 12%"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex items-center gap-4 p-4 bg-mint/50 rounded-xl chart-segment cursor-pointer">
+         <div class="w-4 h-4 bg-cyan-600 rounded-full flex-shrink-0"></div>
+         <div class="flex-1">
+          <div class="flex justify-between items-center"><span class="font-semibold text-charcoal">Setores Defensivos</span> <span class="font-bold text-forest">15%</span>
+          </div>
+          <div class="w-full bg-mint rounded-full h-2 mt-2">
+           <div class="bg-cyan-600 h-2 rounded-full" style="width: 15%"></div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex justify-center">
+       <div class="relative">
+        <svg viewbox="0 0 200 200" class="w-72 h-72 md:w-80 md:h-80"><!-- Donut Chart --> <circle cx="100" cy="100" r="80" fill="none" stroke="#e8f0ed" stroke-width="30" /> <!-- Bancos - 20% --> <circle cx="100" cy="100" r="80" fill="none" stroke="#1a3a2f" stroke-width="30" stroke-dasharray="100.53 402.12" stroke-dashoffset="0" class="chart-segment" /> <!-- Energia - 18% --> <circle cx="100" cy="100" r="80" fill="none" stroke="#4a7c6f" stroke-width="30" stroke-dasharray="90.48 402.12" stroke-dashoffset="-100.53" class="chart-segment" /> <!-- Saneamento - 15% --> <circle cx="100" cy="100" r="80" fill="none" stroke="#2d5a4a" stroke-width="30" stroke-dasharray="75.4 402.12" stroke-dashoffset="-191.01" class="chart-segment" /> <!-- FIIs - 20% --> <circle cx="100" cy="100" r="80" fill="none" stroke="#10b981" stroke-width="30" stroke-dasharray="100.53 402.12" stroke-dashoffset="-266.41" class="chart-segment" /> <!-- Commodities - 12% --> <circle cx="100" cy="100" r="80" fill="none" stroke="#14b8a6" stroke-width="30" stroke-dasharray="60.32 402.12" stroke-dashoffset="-366.94" class="chart-segment" /> <!-- Defensivos - 15% --> <circle cx="100" cy="100" r="80" fill="none" stroke="#0891b2" stroke-width="30" stroke-dasharray="75.4 402.12" stroke-dashoffset="-427.26" class="chart-segment" />
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center">
+         <div class="text-center"><span class="block text-3xl font-bold text-forest">100%</span> <span class="text-sm text-slate">Diversificado</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Para quem é -->
+   <section class="py-20 px-6 bg-cream">
+    <div class="max-w-6xl mx-auto">
+     <div class="text-center mb-16"><span class="inline-block text-sage font-semibold text-sm tracking-wider uppercase mb-4">Público</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-forest">Para quem é esse guia</h2>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white p-8 rounded-2xl text-center shadow-sm hover:shadow-lg transition-shadow">
+       <div class="w-20 h-20 bg-mint rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg class="w-10 h-10 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+       </div>
+       <h3 class="font-display text-xl font-semibold text-forest mb-3">Iniciantes</h3>
+       <p class="text-slate">Pessoas que querem começar a investir em ações e não sabem por onde começar.</p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl text-center shadow-sm hover:shadow-lg transition-shadow">
+       <div class="w-20 h-20 bg-mint rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg class="w-10 h-10 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+       </div>
+       <h3 class="font-display text-xl font-semibold text-forest mb-3">Investidores</h3>
+       <p class="text-slate">Quem já investe mas quer melhorar a diversificação e organização da carteira.</p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl text-center shadow-sm hover:shadow-lg transition-shadow">
+       <div class="w-20 h-20 bg-mint rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg class="w-10 h-10 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+        </svg>
+       </div>
+       <h3 class="font-display text-xl font-semibold text-forest mb-3">Aprendizes</h3>
+       <p class="text-slate">Pessoas que querem aprender a analisar ações de forma simples e objetiva.</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Benefícios -->
+   <section class="py-20 px-6 bg-forest">
+    <div class="max-w-6xl mx-auto">
+     <div class="text-center mb-16"><span class="inline-block text-mint font-semibold text-sm tracking-wider uppercase mb-4">Vantagens</span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white">Por que escolher este guia</h2>
+     </div>
+     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl text-center">
+       <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+       </div>
+       <h3 class="font-semibold text-white mb-2">Direto ao ponto</h3>
+       <p class="text-white/70 text-sm">Conteúdo objetivo, sem enrolação</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl text-center">
+       <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+       </div>
+       <h3 class="font-semibold text-white mb-2">Estratégias práticas</h3>
+       <p class="text-white/70 text-sm">Métodos aplicáveis imediatamente</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl text-center">
+       <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+       </div>
+       <h3 class="font-semibold text-white mb-2">Linguagem simples</h3>
+       <p class="text-white/70 text-sm">Explicações claras e acessíveis</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl text-center">
+       <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+       </div>
+       <h3 class="font-semibold text-white mb-2">Visão de longo prazo</h3>
+       <p class="text-white/70 text-sm">Estratégias para construir patrimônio</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- CTA Final -->
+   <section id="cta-final" class="py-24 px-6 bg-gradient-to-br from-cream via-mint/30 to-cream">
+    <div class="max-w-3xl mx-auto text-center">
+     <div class="inline-flex items-center gap-2 bg-forest/10 px-4 py-2 rounded-full mb-6">
+      <svg class="w-5 h-5 text-forest" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+      </svg><span class="text-sm font-medium text-forest">Acesso imediato após a confirmação</span>
+     </div>
+     <h2 id="final-title" class="font-display text-3xl md:text-5xl font-bold text-forest mb-6">Comece a montar sua carteira de investimentos hoje</h2>
+     <p class="text-lg text-slate leading-relaxed mb-10 max-w-2xl mx-auto">Aprenda os fundamentos para construir uma carteira diversificada e tomar decisões mais conscientes no mercado de ações.</p><a href="#" id="final-cta-button" class="inline-flex items-center justify-center gap-3 bg-forest text-white px-10 py-5 rounded-full text-xl font-semibold hover:bg-forest-light transition-all hover:shadow-xl hover:shadow-forest/25 group"> Acessar o guia agora 
+      <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg></a>
+     <div class="flex flex-wrap justify-center gap-6 mt-10 text-sm text-slate">
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+       </svg><span>Acesso vitalício</span>
+      </div>
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+       </svg><span>PDF para download</span>
+      </div>
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+       </svg><span>Bônus incluído</span>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="py-10 px-6 bg-charcoal">
+    <div class="max-w-6xl mx-auto">
+     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2">
+       <svg class="w-8 h-8 text-white" viewbox="0 0 32 32" fill="none"><rect x="4" y="18" width="6" height="10" rx="1" fill="currentColor" opacity="0.4" /> <rect x="13" y="12" width="6" height="16" rx="1" fill="currentColor" opacity="0.6" /> <rect x="22" y="6" width="6" height="22" rx="1" fill="currentColor" />
+       </svg><span class="font-display font-semibold text-white text-lg">InvestGuia</span>
+      </div>
+      <p class="text-slate text-sm text-center">Este material tem caráter educacional. Investimentos envolvem riscos. Consulte um profissional.</p>
+      <p class="text-slate text-sm">© 2024 InvestGuia</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      hero_title: "Monte uma Carteira de Investimentos Inteligente e Receba Dividendos Consistentes",
+      hero_subtitle: "Um guia prático que mostra como dividir sua carteira, escolher as melhores ações de cada setor e analisar empresas antes de investir.",
+      cta_button_text: "Quero acessar o guia",
+      about_text: "Este PDF foi criado para investidores que querem montar uma carteira sólida e equilibrada. Você vai aprender como dividir seus investimentos entre diferentes setores da economia e selecionar ações com potencial de geração de renda através de dividendos.",
+      final_title: "Comece a montar sua carteira de investimentos hoje",
+      final_button_text: "Acessar o guia agora",
+      background_color: "#fafbfa",
+      surface_color: "#ffffff",
+      text_color: "#2d3436",
+      primary_action_color: "#1a3a2f",
+      secondary_action_color: "#4a7c6f",
+      font_family: "DM Sans",
+      font_size: 16
+    };
+
+    // Element SDK initialization
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          // Update hero section
+          const heroTitle = document.getElementById('hero-title');
+          if (heroTitle) heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+          
+          const heroSubtitle = document.getElementById('hero-subtitle');
+          if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+          
+          const ctaButton = document.getElementById('cta-button');
+          if (ctaButton) {
+            const buttonText = config.cta_button_text || defaultConfig.cta_button_text;
+            ctaButton.innerHTML = `${buttonText} <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>`;
+          }
+          
+          // Update about section
+          const aboutText = document.getElementById('about-text');
+          if (aboutText) aboutText.textContent = config.about_text || defaultConfig.about_text;
+          
+          // Update final CTA
+          const finalTitle = document.getElementById('final-title');
+          if (finalTitle) finalTitle.textContent = config.final_title || defaultConfig.final_title;
+          
+          const finalButton = document.getElementById('final-cta-button');
+          if (finalButton) {
+            const buttonText = config.final_button_text || defaultConfig.final_button_text;
+            finalButton.innerHTML = `${buttonText} <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>`;
+          }
+          
+          // Update colors
+          const bgColor = config.background_color || defaultConfig.background_color;
+          const surfaceColor = config.surface_color || defaultConfig.surface_color;
+          const textColor = config.text_color || defaultConfig.text_color;
+          const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+          const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+          
+          document.documentElement.style.setProperty('--bg-color', bgColor);
+          document.documentElement.style.setProperty('--surface-color', surfaceColor);
+          document.documentElement.style.setProperty('--text-color', textColor);
+          document.documentElement.style.setProperty('--primary-color', primaryColor);
+          document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+          
+          // Update font
+          const fontFamily = config.font_family || defaultConfig.font_family;
+          const fontSize = config.font_size || defaultConfig.font_size;
+          document.body.style.fontFamily = `${fontFamily}, sans-serif`;
+          document.body.style.fontSize = `${fontSize}px`;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => window.elementSdk.setConfig({ background_color: value })
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => window.elementSdk.setConfig({ surface_color: value })
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => window.elementSdk.setConfig({ text_color: value })
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => window.elementSdk.setConfig({ primary_action_color: value })
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => window.elementSdk.setConfig({ secondary_action_color: value })
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => window.elementSdk.setConfig({ font_family: value })
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => window.elementSdk.setConfig({ font_size: value })
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["hero_title", config.hero_title || defaultConfig.hero_title],
+          ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+          ["cta_button_text", config.cta_button_text || defaultConfig.cta_button_text],
+          ["about_text", config.about_text || defaultConfig.about_text],
+          ["final_title", config.final_title || defaultConfig.final_title],
+          ["final_button_text", config.final_button_text || defaultConfig.final_button_text]
+        ])
+      });
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db62ba665f9fa37',t:'MTc3MzM1Mzg2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
